@@ -1,5 +1,9 @@
 
 FROM golang
+
+# enviroment variables
+ENV GO_ENV DEV
+
 RUN go version
 
 RUN mkdir -p /app
@@ -11,4 +15,7 @@ ADD . /app
 # reference makefile
 RUN make
 
-CMD ["./main"]
+ENTRYPOINT ["go", "run", "./cmd/forgetful-bartender/main.go"]
+
+# post entrypoint commands
+# CMD ["./main"]
