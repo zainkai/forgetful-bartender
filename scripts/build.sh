@@ -1,0 +1,1 @@
+sudo docker build -f build/package/deployment.dockerfile -t forgetful-bartender .
