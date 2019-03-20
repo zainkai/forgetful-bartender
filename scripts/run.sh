@@ -1,1 +1,1 @@
-docker run forgetful-bartender
+sudo docker-compose -f ./deployments/docker-compose.yml up

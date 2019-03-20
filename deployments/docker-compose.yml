@@ -1,0 +1,14 @@
+version: '3'
+services: 
+  api:
+    container_name: 'forgetful-bartender-api'
+    build:
+      context: ..
+      dockerfile: ./build/package/deployment.dockerfile
+    ports:
+      - '8080:8080'
+  mongo:
+    image: 'mongo:latest'
+    container_name: 'forgetful-bartender-db'
+    ports:
+      - '27100:27017'
