@@ -7,20 +7,17 @@ ENV PORT 8080
 ENV GO_ENV DEV
 
 # get souce code
-RUN mkdir -p /build
-ADD ./cmd/forgetful-bartender/ /build/
-WORKDIR /build
-
+WORKDIR $GOPATH/src/github.com/zainkai/forgetful-bartender
+COPY . ./
 
 # install deps
-# RUN set -x && \
-#     go get github.com/golang/dep/cmd/dep && \
-#     dep ensure -v
+RUN go get -u github.com/golang/dep/...
+RUN dep ensure
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
+# build step
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o /app ./cmd/forgetful-bartender
 
 # stage 2
 FROM scratch
-COPY --from=builder /build/main /app/
-WORKDIR /app
-CMD ["./main"]
+COPY --from=builder /app ./
+CMD ["./app"]
