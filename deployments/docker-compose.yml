@@ -6,7 +6,7 @@ services:
       context: ..
       dockerfile: ./build/package/deployment.dockerfile
     ports:
-      - '8080:8080'
+      - '8081:8081'
   mongo:
     image: 'mongo:latest'
     container_name: 'forgetful-bartender-db'
