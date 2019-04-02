@@ -11,4 +11,4 @@ services:
     image: 'mongo:latest'
     container_name: 'forgetful-bartender-db'
     ports:
-      - '27100:27017'
+      - '27017:27017'
