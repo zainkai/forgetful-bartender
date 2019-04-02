@@ -1,4 +1,4 @@
 {
     "Port": "8081",
-    "DatabaseURL": "mongodb://localhost:27017"
+    "DatabaseURL": "mongodb://mongo:27017"
 }
