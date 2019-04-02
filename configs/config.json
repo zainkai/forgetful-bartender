@@ -1,4 +1,9 @@
 {
     "Port": "8081",
-    "DatabaseURL": "mongodb://mongo:27017"
+    "Database": {
+        "URL": "mongodb://mongo:27017",
+        "Name": "forgetful-db-v1",
+        "Collection": "drinks"
+    }
+    
 }
