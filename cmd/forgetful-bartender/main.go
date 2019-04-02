@@ -9,7 +9,7 @@ import (
 
 func main () {
   config.LoadConfig()
-  configuration := config.Config
+  configuration := *config.Config
 
 	r := gin.Default()
   v1 := r.Group("/api/v1")

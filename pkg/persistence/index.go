@@ -13,31 +13,32 @@ import (
 
 type DB struct {
 	collectionName string
-	databaseName string
-	parent (*mongo.Client)
-	conn (*mongo.Collection)
+	databaseName   string
+	parent         (*mongo.Client)
+	conn           (*mongo.Collection)
 }
 
 type Drink struct {
 	name string
 }
 
-func Init() (*DB) {
+func Init() *DB {
 	config.LoadConfig()
-	configuration := config.Config
-	client, err := mongo.Connect(context.Background(), configuration.DatabaseURL)
+	configuration := *config.Config
+	dbConfig := configuration.Database
+	client, err := mongo.Connect(context.Background(), dbConfig.URL)
 
 	if err != nil {
 		fmt.Println(err)
 	}
-	db := client.Database("forgetful-db-v1").Collection("drinks")
 
+	db := client.Database(dbConfig.Name).Collection(dbConfig.Collection)
 	fmt.Println("Connected to database")
 	return &DB{
-		collectionName: "drinks",
-		databaseName: "forgetful-db-v1",
-		parent: client,
-		conn: db}
+		collectionName: dbConfig.Collection,
+		databaseName:   dbConfig.Name,
+		parent:         client,
+		conn:           db}
 }
 
 func (dbPtr *DB) Disconnect() {
@@ -58,4 +59,3 @@ func (dbPtr *DB) CreateDrink(data Drink) {
 	}
 	fmt.Println(res.InsertedID)
 }
-
