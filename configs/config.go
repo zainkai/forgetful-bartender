@@ -8,6 +8,7 @@ import (
 
 type Configuration struct {
 	Port string `json:"Port"`
+	DatabaseURL string `json:"DatabaseURL"`
 }
 
 var Config Configuration
