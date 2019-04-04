@@ -25,6 +25,7 @@ func main () {
 
   v1 := r.Group("/api/v1")
   v1.GET("/health", routes.HealthEndpoint)
+  v1.POST("/drink", routes.CreateDrinkEndpoint)
   
   r.NoRoute(routes.NotFoundEndPoint)
 

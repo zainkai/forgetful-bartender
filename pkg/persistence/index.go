@@ -19,7 +19,7 @@ type DB struct {
 }
 
 type Drink struct {
-	name string
+	Name string `json:"name" binding:"required"`
 }
 
 func Init() *DB {
