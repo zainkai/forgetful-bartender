@@ -51,11 +51,11 @@ func (dbPtr *DB) Disconnect() {
 	fmt.Println("Disconnected from database")
 }
 
-func (dbPtr *DB) CreateDrink(data Drink) {
+func (dbPtr *DB) CreateDrink(data Drink) (*mongo.InsertOneResult, error) {
 	res, err := dbPtr.conn.InsertOne(context.Background(), data)
 
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(res.InsertedID)
+	return res, err
 }
