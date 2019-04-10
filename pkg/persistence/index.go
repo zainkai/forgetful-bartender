@@ -13,6 +13,18 @@ import (
 
 const pkgName string = "persistence"
 
+// Move to pkg/models
+type SpiritType string
+const (
+  Vodka SpiritType = "VODKA"
+  Gin SpiritType = "GIN"
+  Whiskey SpiritType = "WHISKEY"
+  Rum SpiritType = "RUM"
+  Beer SpiritType = "BEER"
+  Wine SpiritType = "WINE"
+  Other SpiritType = "OTHER"
+)
+
 type DB struct {
 	collectionName string
 	databaseName   string
@@ -20,8 +32,18 @@ type DB struct {
 	conn           (*mongo.Collection)
 }
 
+type Ingredient struct {
+  Spirit SpiritType `json:"Spirit" binding:"required"`
+  Amount string `json:"Amount" binding:"required"`
+  AmountUnit string `json:"AmountUnit"`
+  SuggestedSpirit []string `json:"SuggestedSpirit"`
+}
+
 type Drink struct {
-	Name string `json:"name" binding:"required"`
+  Name string `json:"Name" binding:"required"` // Secondary index
+  MainSpiritType SpiritType `json:"MainSpiritType" binding:"required"`// Primary index
+  Instructions []string `json:"Instructions" binding:"required"`
+  Ingredients []Ingredient `json:"Ingredients" binding:"required"`
 }
 
 func Init() *DB {
