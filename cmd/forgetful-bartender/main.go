@@ -5,7 +5,7 @@ import (
   routes "github.com/zainkai/forgetful-bartender/internal/routesV1"
   "github.com/zainkai/forgetful-bartender/pkg/middleware"
   "github.com/zainkai/forgetful-bartender/configs"
-  "fmt"
+  "github.com/zainkai/forgetful-bartender/pkg/logger"
 )
 
 func initGin (c *gin.Context) {
@@ -29,6 +29,6 @@ func main () {
   
   r.NoRoute(routes.NotFoundEndPoint)
 
-  fmt.Println("Running server on http://localhost:" + configuration.Port)
+  logger.Log("Main" ,"Running server on http://localhost:" + configuration.Port, nil)
 	r.Run(":" + configuration.Port) // listen and serve on 0.0.0.0:8080
 }

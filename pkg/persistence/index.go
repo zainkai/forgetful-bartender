@@ -7,9 +7,11 @@ import (
 	// "github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/mongo"
 	// "github.com/mongodb/mongo-go-driver/mongo/options"
-
+	"github.com/zainkai/forgetful-bartender/pkg/logger"
 	"github.com/zainkai/forgetful-bartender/configs"
 )
+
+const pkgName string = "persistence"
 
 type DB struct {
 	collectionName string
@@ -29,7 +31,7 @@ func Init() *DB {
 	client, err := mongo.Connect(context.Background(), dbConfig.URL)
 
 	if err != nil {
-		fmt.Println(err)
+		logger.Log(pkgName, "Could not connect to MongoDb", err)
 	}
 
 	db := client.Database(dbConfig.Name).Collection(dbConfig.Collection)
@@ -46,7 +48,7 @@ func (dbPtr *DB) Disconnect() {
 	err := dbPtr.parent.Disconnect(context.Background())
 
 	if err != nil {
-		fmt.Println(err)
+		logger.Log(pkgName, "Could not disconnect to MongoDb", err)
 	}
 	fmt.Println("Disconnected from database")
 }
@@ -55,7 +57,7 @@ func (dbPtr *DB) CreateDrink(data Drink) (*mongo.InsertOneResult, error) {
 	res, err := dbPtr.conn.InsertOne(context.Background(), data)
 
 	if err != nil {
-		fmt.Println(err)
+		logger.Log(pkgName, "Could not create Drink", err)
 	}
 	return res, err
 }

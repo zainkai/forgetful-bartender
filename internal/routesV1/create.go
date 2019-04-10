@@ -6,7 +6,10 @@ import(
 	"net/http"
 	"github.com/zainkai/forgetful-bartender/pkg/validation"
 	"github.com/zainkai/forgetful-bartender/pkg/persistence"
+	"github.com/zainkai/forgetful-bartender/pkg/logger"
 )
+
+const pkgName string = "routesV1/create"
 
 func CreateDrinkEndpoint(c *gin.Context)  {
 	validation.Drink(c)
@@ -17,7 +20,8 @@ func CreateDrinkEndpoint(c *gin.Context)  {
 	dbConn, ok := c.Keys["dbConn"].(*persistence.DB)
 	reqBody, _ := c.Keys["BODY"].(persistence.Drink)
 	if !ok {
-		fmt.Println("Cannot find database connection")
+		logger.Err(pkgName, "Cannot find database connection", nil)
+		return
 	}
 	result, _ := dbConn.CreateDrink(reqBody)
 

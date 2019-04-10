@@ -5,12 +5,15 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/zainkai/forgetful-bartender/pkg/persistence"
+	"github.com/zainkai/forgetful-bartender/pkg/logger"
 )
+
+const pkgName string = "validation"
 
 func Drink (c *gin.Context) {
 	var drink persistence.Drink
 	if err := c.ShouldBindJSON(&drink); err != nil {
-		fmt.Println("invalid drink request")
+		logger.Log(pkgName, "invalid drink request", err)
 		
 		statusCode := http.StatusBadRequest
 		resp := gin.H{"Message": http.StatusText(statusCode)}
