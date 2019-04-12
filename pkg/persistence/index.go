@@ -7,22 +7,23 @@ import (
 	// "github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/mongo"
 	// "github.com/mongodb/mongo-go-driver/mongo/options"
+	config "github.com/zainkai/forgetful-bartender/configs"
 	"github.com/zainkai/forgetful-bartender/pkg/logger"
-	"github.com/zainkai/forgetful-bartender/configs"
 )
 
 const pkgName string = "persistence"
 
 // Move to pkg/models
 type SpiritType string
+
 const (
-  Vodka SpiritType = "VODKA"
-  Gin SpiritType = "GIN"
-  Whiskey SpiritType = "WHISKEY"
-  Rum SpiritType = "RUM"
-  Beer SpiritType = "BEER"
-  Wine SpiritType = "WINE"
-  Other SpiritType = "OTHER"
+	Vodka   SpiritType = "VODKA"
+	Gin     SpiritType = "GIN"
+	Whiskey SpiritType = "WHISKEY"
+	Rum     SpiritType = "RUM"
+	Beer    SpiritType = "BEER"
+	Wine    SpiritType = "WINE"
+	Other   SpiritType = "OTHER"
 )
 
 type DB struct {
@@ -33,17 +34,18 @@ type DB struct {
 }
 
 type Ingredient struct {
-  Spirit SpiritType `json:"Spirit" binding:"required"`
-  Amount string `json:"Amount" binding:"required"`
-  AmountUnit string `json:"AmountUnit"`
-  SuggestedSpirit []string `json:"SuggestedSpirit"`
+	Spirit          SpiritType `json:"Spirit" binding:"required"`
+	Amount          string     `json:"Amount" binding:"required"`
+	AmountUnit      string     `json:"AmountUnit"`
+	SuggestedSpirit []string   `json:"SuggestedSpirit"`
 }
 
 type Drink struct {
-  Name string `json:"Name" binding:"required"` // Secondary index
-  MainSpiritType SpiritType `json:"MainSpiritType" binding:"required"`// Primary index
-  Instructions []string `json:"Instructions" binding:"required"`
-  Ingredients []Ingredient `json:"Ingredients" binding:"required"`
+	Name           string       `json:"Name" binding:"required"`           // Secondary index
+	MainSpiritType SpiritType   `json:"MainSpiritType" binding:"required"` // Primary index
+	Description    string       `json:"Description"`
+	Instructions   []string     `json:"Instructions" binding:"required"`
+	Ingredients    []Ingredient `json:"Ingredients" binding:"required"`
 }
 
 func Init() *DB {
