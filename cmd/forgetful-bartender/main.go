@@ -17,6 +17,9 @@ func initGin(c *gin.Context) {
 
 func main() {
 	config.LoadConfig()
+	if config.Config == nil {
+		logger.Err("Main", "Config was not loaded", nil)
+	}
 	configuration := *config.Config
 
 	r := gin.Default()
