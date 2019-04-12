@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "e7f94ab1-4279-40d3-abd7-c554c78bf5e1",
+		"name": "forgetful-bartender",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "health check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{HOSTNAME}}/api/{{VERSION}}/health",
+					"protocol": "http",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"api",
+						"{{VERSION}}",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create drink",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"moscow mule\",\n\t\"MainSpiritType\": \"VODKA\",\n\t\"Instructions\":[\n\t\t\"chill glass\",\n\t\t\"add ice to glass\",\n\t\t\"add 1/2 shots vodka\",\n\t\t\"add .5 shots lime juice\",\n\t\t\"top with ginger ale\"\n\t],\n\t\"Ingredients\": [\n\t\t{\n\t\t\t\"Spirit\": \"VODKA\",\n\t\t\t\"Amount\": \"1 or 2 shots\",\n\t\t\t\"SuggestedSpirit\": [\"titos\", \"haku\"]\n\t\t},\n\t\t{\n\t\t\t\"Spirit\": \"OTHER\",\n\t\t\t\"Amount\": \"0.5 shots\",\n\t\t\t\"SuggestedSpirit\": [\"Lime\"]\n\t\t},\n\t\t{\n\t\t\t\"Spirit\": \"OTHER\",\n\t\t\t\"Amount\": \"6oz\",\n\t\t\t\"SuggestedSpirit\": [\"Ginger Ale\"]\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "http://{{HOSTNAME}}/api/{{VERSION}}/drink",
+					"protocol": "http",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"api",
+						"{{VERSION}}",
+						"drink"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one drink",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{HOSTNAME}}/api/{{VERSION}}/drink?id=5cb015a6f4ab9815c658d0f7",
+					"protocol": "http",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"api",
+						"{{VERSION}}",
+						"drink"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "5cb015a6f4ab9815c658d0f7"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a807cd40-ebb8-40e1-8273-82e92b41dce5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "86590d03-e286-4eae-a7fb-f9fc8ac006ee",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "d1f1f219-2869-4b6a-b854-638667616c2b",
+			"key": "HOSTNAME",
+			"value": "localhost:8081",
+			"type": "string"
+		},
+		{
+			"id": "3d973e3c-9e7c-4e68-b1fd-6d2e77c4f1a4",
+			"key": "VERSION",
+			"value": "v1",
+			"type": "string"
+		}
+	]
+}
