@@ -3,10 +3,13 @@ package persistence
 import (
 	"context"
 	"fmt"
+	"time"
 
-	// "github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/bson/primitive"
+
+	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/mongo"
-	// "github.com/mongodb/mongo-go-driver/mongo/options"
+
 	config "github.com/zainkai/forgetful-bartender/configs"
 	"github.com/zainkai/forgetful-bartender/pkg/logger"
 )
@@ -83,4 +86,25 @@ func (dbPtr *DB) CreateDrink(data Drink) (*mongo.InsertOneResult, error) {
 		logger.Log(pkgName, "Could not create Drink", err)
 	}
 	return res, err
+}
+
+func (dbPtr *DB) GetOneDrink(drinkId string) (*Drink, error) {
+	var drink Drink
+
+	drinkObjId, err1 := primitive.ObjectIDFromHex(drinkId)
+	if err1 != nil {
+		logger.Log(pkgName, "drinkId not in hex format", err1)
+		return nil, err1
+	}
+
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	err := dbPtr.conn.FindOne(ctx, bson.M{"_id": drinkObjId}).Decode(&drink)
+
+	if err != nil {
+		logger.Log(pkgName, "drinkId could not be found", err)
+		return nil, err
+
+	}
+
+	return &drink, err
 }
