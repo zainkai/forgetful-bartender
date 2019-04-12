@@ -36,8 +36,7 @@ type DB struct {
 type Ingredient struct {
 	Spirit          SpiritType `json:"Spirit" binding:"required"`
 	Amount          string     `json:"Amount" binding:"required"`
-	AmountUnit      string     `json:"AmountUnit"`
-	SuggestedSpirit []string   `json:"SuggestedSpirit"`
+	SuggestedSpirit []string   `json:"SuggestedSpirit" binding:"required"`
 }
 
 type Drink struct {
