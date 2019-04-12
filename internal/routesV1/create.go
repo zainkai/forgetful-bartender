@@ -32,7 +32,7 @@ func CreateDrinkEndpoint(c *gin.Context) {
 
 	statusCode := http.StatusOK
 	resp := gin.H{
-		"Message":    http.StatusText(statusCode),
-		"InsertedID": result.InsertedID}
+		"Message": http.StatusText(statusCode),
+		"drinkId": result.InsertedID}
 	c.JSON(statusCode, resp)
 }
