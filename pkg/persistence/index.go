@@ -1,11 +1,15 @@
 package persistence
 
+// helpful
+// https://github.com/mongodb/mongo-go-driver/blob/master/examples/documentation_examples/examples.go
+
 import (
 	"context"
 	"fmt"
 	"time"
 
 	"github.com/mongodb/mongo-go-driver/bson/primitive"
+	"github.com/mongodb/mongo-go-driver/mongo/options"
 
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/mongo"
@@ -107,4 +111,33 @@ func (dbPtr *DB) GetOneDrink(drinkId string) (*Drink, error) {
 	}
 
 	return &drink, err
+}
+
+// Cursor skip and limit will traversel O(N) entries
+func (dbPtr *DB) GetMultipleDrinks(pageSize int64, pageNum int64) ([]Drink, error) {
+	options := options.Find()
+	options.SetLimit(pageSize)
+	options.SetSkip((pageNum - 1) * pageSize)
+
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	cur, err := dbPtr.conn.Find(ctx, bson.D{}, options)
+
+	if err != nil {
+		logger.Log(pkgName, "Drink array could not be retrieved", err)
+		return nil, err
+	}
+
+	result := make([]Drink, pageSize)
+	for cur.Next(context.TODO()) {
+		var drink *Drink
+		err := cur.Decode(&drink)
+		if err != nil {
+			logger.Log(pkgName, "Drink could not be decoded", err)
+		}
+		if drink != nil {
+			result = append(result, *drink)
+		}
+
+	}
+	return result, nil
 }

@@ -38,3 +38,31 @@ func GetOneDrinkEndpoint(c *gin.Context) {
 		"result":  *result}
 	c.JSON(statusCode, resp)
 }
+
+func GetMultipleDrinkEndpoint(c *gin.Context) {
+	pageNum, pageSize := validation.QueryPagination(c)
+
+	if c.IsAborted() {
+		return
+	}
+
+	dbConn, ok := c.Keys[constants.DB_CONN].(*persistence.DB)
+	if !ok {
+		logger.Err("routesV1/get", "Cannot find database connection", nil)
+		return
+	}
+
+	result, err := dbConn.GetMultipleDrinks(pageSize, pageNum)
+	if err != nil {
+		statusCode := http.StatusInternalServerError
+		resp := gin.H{"Message": http.StatusText(statusCode)}
+		c.AbortWithStatusJSON(statusCode, resp)
+		return
+	}
+
+	statusCode := http.StatusOK
+	resp := gin.H{
+		"Message": http.StatusText(statusCode),
+		"result":  result}
+	c.JSON(statusCode, resp)
+}

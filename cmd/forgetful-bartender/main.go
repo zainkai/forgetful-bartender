@@ -30,6 +30,7 @@ func main() {
 	v1.GET("/health", routes.HealthEndpoint)
 	v1.POST("/drink", routes.CreateDrinkEndpoint)
 	v1.GET("/drink", routes.GetOneDrinkEndpoint)
+	v1.GET("/drink/batch", routes.GetMultipleDrinkEndpoint)
 
 	r.NoRoute(routes.NotFoundEndPoint)
 
